@@ -112,9 +112,13 @@ pub fn build(b: *std.Build) void {
         },
     });
 
-    const zdawn = b.addStaticLibrary(.{
+    const zdawn = b.addLibrary(.{
         .name = "zdawn",
-        .root_module = root,
+        .use_llvm = true,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     b.installArtifact(zdawn);
     linkSystemDeps(b, zdawn);
@@ -132,9 +136,12 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run zgpu tests");
     const tests = b.addTest(.{
         .name = "zgpu-tests",
-        .root_source_file = b.path("src/zgpu.zig"),
-        .target = target,
-        .optimize = optimize,
+        .use_llvm = true,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/zgpu.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     tests.linkLibrary(zdawn);
     tests.addIncludePath(b.path("include"));

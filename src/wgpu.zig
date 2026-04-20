@@ -1279,7 +1279,7 @@ pub const CreateComputePipelineAsyncCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const CreateRenderPipelineAsyncCallback = *const fn (
     status: CreatePipelineAsyncStatus,
@@ -1287,7 +1287,7 @@ pub const CreateRenderPipelineAsyncCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const PopErrorScopeCallback = *const fn (
     status: PopErrorScopeStatus,
@@ -1295,7 +1295,7 @@ pub const PopErrorScopeCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const DeviceLostCallback = *const fn (
     device: *const Device,
@@ -1303,7 +1303,7 @@ pub const DeviceLostCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const UncapturedErrorCallback = *const fn (
     device: *const Device,
@@ -1311,7 +1311,7 @@ pub const UncapturedErrorCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const RequestAdapterCallback = *const fn (
     status: RequestAdapterStatus,
@@ -1319,7 +1319,7 @@ pub const RequestAdapterCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const RequestDeviceCallback = *const fn (
     status: RequestDeviceStatus,
@@ -1327,28 +1327,28 @@ pub const RequestDeviceCallback = *const fn (
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const BufferMapCallback = *const fn (
     status: MapAsyncStatus,
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const QueueWorkDoneCallback = *const fn (
     status: QueueWorkDoneStatus,
     message: c.WGPUStringView,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 pub const CompilationInfoCallback = *const fn (
     status: CompilationInfoRequestStatus,
     info: *const CompilationInfo,
     userdata_1: ?*anyopaque,
     userdata_2: ?*anyopaque,
-) callconv(.C) void;
+) callconv(.c) void;
 
 //
 // Section: Opaques/Functions
