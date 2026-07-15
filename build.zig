@@ -115,10 +115,7 @@ pub fn build(b: *std.Build) void {
     const zdawn = b.addLibrary(.{
         .name = "zdawn",
         .use_llvm = true,
-        .root_module = b.createModule(.{
-            .target = target,
-            .optimize = optimize,
-        }),
+        .root_module = root,
     });
     b.installArtifact(zdawn);
     linkSystemDeps(b, zdawn);
