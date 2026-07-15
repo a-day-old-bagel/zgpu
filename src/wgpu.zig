@@ -1935,7 +1935,6 @@ pub const QuerySet = *opaque {
 };
 
 pub const Queue = *opaque {
-
     pub fn onSubmittedWorkDone(
         queue: Queue,
         callback_info: QueueWorkDoneCallbackInfo,
@@ -2542,14 +2541,14 @@ test "enum_abi_compatibility" {
                     };
                     enum_i += 1;
                 }
-                break :blk @Type(.{
-                    .@"enum" = .{
-                        .tag_type = z_int_type,
-                        .fields = enum_fields[0..enum_i],
-                        .decls = &empty_decls,
-                        .is_exhaustive = true,
-                    },
-                });
+                _ = &empty_decls;
+                var enum_names: [c_import_decls.len][:0]const u8 = undefined;
+                var enum_values: [c_import_decls.len]z_int_type = undefined;
+                for (enum_fields[0..enum_i], 0..) |field, i| {
+                    enum_names[i] = field.name;
+                    enum_values[i] = @intCast(field.value);
+                }
+                break :blk @Enum(z_int_type, .exhaustive, enum_names[0..enum_i], enum_values[0..enum_i]);
             }
         };
 
@@ -2592,7 +2591,7 @@ test "enum_abi_compatibility" {
 }
 
 test "wgpu_ref_all_decls" {
-    std.testing.refAllDeclsRecursive(@This());
+    std.testing.refAllDecls(@This());
 }
 
 fn normalizeCEnumField(full_field_name: []const u8, buf: []u8) []const u8 {

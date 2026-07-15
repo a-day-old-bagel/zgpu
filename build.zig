@@ -121,10 +121,11 @@ pub fn build(b: *std.Build) void {
     });
     b.installArtifact(zdawn);
     linkSystemDeps(b, zdawn);
+    addLibraryPathsTo(zdawn);
 
     // prebuilt libs from os-specific dependency
-    zdawn.root_module.linkSystemLibrary("webgpu_dawn");
-    if (zdawn.rootModuleTarget().os.tag == .windows) zdawn.root_module.linkSystemLibrary("mingw_helpers");
+    zdawn.root_module.linkSystemLibrary("webgpu_dawn", .{});
+    if (zdawn.rootModuleTarget().os.tag == .windows) zdawn.root_module.linkSystemLibrary("mingw_helpers", .{});
 
     zdawn.root_module.addIncludePath(b.path("src"));
     zdawn.root_module.addIncludePath(b.path("include"));
@@ -178,10 +179,10 @@ pub fn linkSystemDeps(b: *std.Build, compile_step: *std.Build.Step.Compile) void
             if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
                 compile_step.root_module.addLibraryPath(system_sdk.path("windows/lib/x86_64-windows-gnu"));
             }
-            compile_step.root_module.linkSystemLibrary("ole32");
-            compile_step.root_module.linkSystemLibrary("oleaut32");
-            compile_step.root_module.linkSystemLibrary("dxguid");
-            compile_step.root_module.linkSystemLibrary("dbghelp");
+            compile_step.root_module.linkSystemLibrary("ole32", .{});
+            compile_step.root_module.linkSystemLibrary("oleaut32", .{});
+            compile_step.root_module.linkSystemLibrary("dxguid", .{});
+            compile_step.root_module.linkSystemLibrary("dbghelp", .{});
         },
         .macos => {
             if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
@@ -233,7 +234,7 @@ pub fn addLibraryPathsTo(compile_step: *std.Build.Step.Compile) void {
         },
         else => {},
     }
-    compile_step.root_module.linkSystemLibrary("dawn", .{});
+    // compile_step.root_module.linkSystemLibrary("dawn", .{});
 }
 
 pub fn checkTargetSupported(target: std.Target) bool {
