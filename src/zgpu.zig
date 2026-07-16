@@ -132,10 +132,7 @@ pub const GraphicsContext = struct {
 
         // const instance = if (emscripten) wgpu.createInstance(.{}) else dniGetWgpuInstance(native_instance).?;
 
-
-
-
-        const instance_features: []const wgpu.InstanceFeatureName = &.{ .timed_wait_any };
+        const instance_features: []const wgpu.InstanceFeatureName = &.{.timed_wait_any};
         const instance = wgpu.createInstance(.{
             .required_feature_count = instance_features.len,
             .required_features = @ptrCast(instance_features.ptr),
@@ -617,7 +614,7 @@ pub const GraphicsContext = struct {
         if (status != .success) {
             std.log.err(
                 "[zgpu] Failed to complete GPU work: {s}",
-                .{ wgpu.StringView.zigFromC(message) orelse "no message" },
+                .{wgpu.StringView.zigFromC(message) orelse "no message"},
             );
         }
     }
@@ -1031,7 +1028,7 @@ pub const GraphicsContext = struct {
                 "[zgpu] Failure ({s}) waiting for async operation {?s}",
                 .{ @tagName(wait_status), opt.label },
             );
-            return switch(wait_status) {
+            return switch (wait_status) {
                 .timed_out => error.WaitAnyTimedOut,
                 else => error.WaitAnyUnknownError,
             };
@@ -1848,7 +1845,7 @@ fn createSurfaceForWindow(instance: wgpu.Instance, window_provider: WindowProvid
         .windows => SurfaceDescriptor{
             .windows_hwnd = .{
                 .label = "Win32 Window Surface",
-                .hinstance = std.os.windows.kernel32.GetModuleHandleW(null).?,
+                .hinstance = std.os.windows.peb().ImageBaseAddress,
                 .hwnd = window_provider.getWin32Window().?,
             },
         },
@@ -2064,7 +2061,7 @@ fn formatToShaderFormat(format: wgpu.TextureFormat) []const u8 {
 }
 
 // var wgpuDeviceTickWarnPrinted: bool = false;
-// 
+//
 // pub fn wgpuDeviceTick() void {
 //     if (emscripten) {
 //         if (!wgpuDeviceTickWarnPrinted) {
