@@ -74,6 +74,7 @@ pub const WindowProvider = struct {
 pub const GraphicsContextOptions = struct {
     present_mode: wgpu.PresentMode = .fifo,
     required_features: []const wgpu.FeatureName = &.{},
+    uncaptured_error_callback: ?wgpu.UncapturedErrorCallback = null,
     /// Optional set of limits requested when creating the device.
     ///
     /// Older versions of zgpu used `wgpu.RequiredLimits` which wrapped
@@ -308,7 +309,7 @@ pub const GraphicsContext = struct {
                     .callback = device_lost_callback,
                 },
                 .uncaptured_error_callback_info = .{
-                    .callback = uncaptured_error_callback,
+                    .callback = options.uncaptured_error_callback orelse uncaptured_error_callback,
                 },
             };
 
